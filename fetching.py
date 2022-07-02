@@ -1,13 +1,25 @@
+"""
+    CREATED BY : AMINE HATIM AKA 6-ON 
+    GITHUB : https://github.com/6-ON 
+    
+    fetching is a library helps to get football players information and filter them based thier contintnents ,countries ,
+    and the tournements where they playing
+    
+    NOTE : i created this library for testing and educational purposes 
+    
+    NOTE : i'm not responsible for any illegale or commercial usage 
+
+"""
+
+
 from random import randint
 import requests
 
 
 class fetcher:
-    """ "*
-    this Method fecth the players
-    from the url that contains them as json list
-    NOTE:
-    the list of players has a key named records
+    """
+        fetcher class is the main class in fetching module
+    NOTE: 
     """
 
     def get_players_list(
@@ -15,13 +27,19 @@ class fetcher:
         count=10,
         continent_id="all",
         country_id="all",
-        tournement_id="all",
+        tournament_id="all",
         desc=True,
     ):
+        """
+        this Method fetch the players from the url that contains them as json list
+        
+        NOTE:
+        the list of players has a key named records
+        """
         DATA_URL = (
             "https://www.footballtransfers.com/en/players/actions/overview/overview"
         )
-        req_header = {
+        payload = {
             "orderBy": "ft_most_valuable_players.estimated_value",
             "orderByDescending": int(desc),
             "page": page,
@@ -29,9 +47,9 @@ class fetcher:
             "pageItems": count,
             "continentId": continent_id,
             "countryId": country_id,
-            "tournamentId": tournement_id,
+            "tournamentId": tournament_id,
         }
-        res = requests.post(url=DATA_URL, data=req_header)
+        res = requests.post(url=DATA_URL, data=payload)
         return res.json()["records"]
 
     """"
