@@ -7,7 +7,7 @@
     
     NOTE : i created this library for testing and educational purposes 
     
-    NOTE : i'm not responsible for any illegale or commercial usage 
+    NOTE : i'm not responsible for any illegal or commercial usage 
 
 """
 
