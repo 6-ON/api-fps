@@ -15,7 +15,6 @@
 from random import randint
 import requests
 
-
 class fetcher:
     """
         fetcher class is the main class in fetching module
@@ -50,7 +49,7 @@ class fetcher:
             "tournamentId": tournament_id,
         }
         res = requests.post(url=DATA_URL, data=payload)
-        return res.json()["records"]
+        return {"results":res.json()["records"]}
 
     """"
         this methos to srarch for countries by name
@@ -85,11 +84,12 @@ class fetcher:
         while True:
             response_json = fetching_method(page_index)
             more = response_json["pagination"]["more"]
+            results += response_json["results"]
             if not (more):
                 break
-            results += response_json["results"]
             page_index += 1
-        return results
+        
+        return {"results":results}
 
     def get_random_player():
         return fetcher.get_players_list(page=randint(1, 100), count=1)[0]
