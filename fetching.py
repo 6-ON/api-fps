@@ -12,7 +12,7 @@
 """
 
 
-from inspect import CO_ASYNC_GENERATOR
+import json
 from random import randint
 import requests
 
@@ -62,7 +62,7 @@ class fetcher:
             payload_preset.pop("countryId")
             payload_preset["onlyNationalTeams"]=1
         res = requests.post(url=_url, data=payload_preset)
-        return {"results": res.json()["records"]}
+        return json.dumps({"results": res.json()["records"]},sort_keys=True,indent=4)
 
     def get_players(
         page=1,
@@ -113,7 +113,7 @@ class fetcher:
                 break
             page_index += 1
 
-        return {"results": results}
+        return json.dumps({"results": results},sort_keys=True,indent=4)
 
     def get_random_player()->dict:
         return fetcher.get_players(page=randint(1, 100), count=1)
@@ -171,7 +171,7 @@ class fetcher:
         )
 # # testlines
 # print(fetcher.get_random_player())
-# print(fetcher.get_players_list(count=4, continent_id=1))
+# print(fetcher.get_players(count=4, continent_id=1))
 # print(fetcher.get_countries())
 # print(fetcher.get_continents())
 # print(fetcher.get_tournaments())
