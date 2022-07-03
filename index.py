@@ -10,7 +10,7 @@ def home():
 
 #-------------------------------------------------------
 # The route returns a list of players based on the filtering params 
-@app.route("/playerlist")
+@app.route("/playerslist")
 def playerslist():
     ALL_VALUE = "all"
     count = request.args.get(key="count", default=10,type=int)
@@ -30,7 +30,7 @@ def playerslist():
 # NOTE: you can use thier ids to filter the players
 @app.route("/countries")
 def countries():
-    return fetcher.get_all_countries()
+    return fetcher.get_countries()
 
 #-------------------------------------------------------
 
@@ -39,5 +39,4 @@ def countries():
 @app.route("/countries/search")
 def search_countries():
     term = request.args.get(key="term", default="all",type=str)
-    return fetcher.search_countries(term)
-
+    return fetcher.get_countries(term)
