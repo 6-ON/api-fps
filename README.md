@@ -1,9 +1,35 @@
 # api-fps
 API for scraping football players information from "Football Transfers"
+usage
 
-  <h2>usage</h2>
-  <h4>Default Route</h4>
-  <h5><a href ="https://sixon-fps-api.vercel.app/" >https://sixon-fps-api.vercel.app/</a></h5>
-  <p>returns a random player as json file contains all of his information like name, picture, age, team, nationality, etc...</p>
-  
- <h2 style="color:red">Additional routes will be added in the future </h2>
+## Features
+
+- easy to use
+- useful
+- fast
+- filterable
+
+
+## API Reference
+
+#### Get random player
+
+```
+  GET sixon-fps-api.vercel.app/
+```
+
+#### Get list of players based on filtering parameters
+
+```
+  GET sixon-fps-api.vercel.app/playerlist?count={count}&countryId={countryId}&countinentId={countinentId}&tournamentId={tournamentId}
+```
+
+| Parameter           | Type     | Default Value  | Description                                     |
+| :------------------ | :------- | :------------- |:----------------------------------------------- |
+| `count`             | `int`    | 10             | **Optional**. count of players to fetch         |
+| `countryId`         | `int`    | "all"          | **Optional**. countryId of players to fetch     |
+| `countinentId`      | `int`    | "all"          | **Optional**. countinentId of players to fetch  |
+| `tournamentId`      | `int`    | " all"         | **Optional**. tournamentId of players to fetch  |
+
+
+
