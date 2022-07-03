@@ -103,6 +103,6 @@ def tournaments():
 #  This route returns a list of all available continents based on the searching term
 #  NOTE: you can you thier ids to filter the players or teams
 @app.route("/tournaments/search")
-def search_continents():
+def search_tournament():
     term = request.args.get(key="term", default="",type=str)
     return fetcher.get_tournaments(term)
