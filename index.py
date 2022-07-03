@@ -46,7 +46,7 @@ def teams():
 #-------------------------------------------------------
 # This route returns a list of national Teams based on the filtering params 
 @app.route("/teams/national")
-def teams():
+def nationalteams():
     ALL_VALUE = "all"
     count = request.args.get(key="count", default=10,type=int)
     id_continent = request.args.get(key="continentId", default=ALL_VALUE)
