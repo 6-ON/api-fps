@@ -12,6 +12,7 @@
 """
 
 
+from inspect import CO_ASYNC_GENERATOR
 from random import randint
 import requests
 
@@ -37,6 +38,7 @@ class fetcher:
         "https://www.footballtransfers.com/en/teams/actions/overview/overview"
     )
     def __request_post__(
+        _for_national_team,
         _url,
         _page,
         _count,
@@ -46,7 +48,7 @@ class fetcher:
         _order_by,
         _desc,
     ):
-        payload = {
+        payload_preset = {
             "orderBy": _order_by,
             "orderByDescending": int(_desc),
             "page": _page,
@@ -56,16 +58,19 @@ class fetcher:
             "countryId": _country_id,
             "tournamentId": _tournament_id,
         }
-        res = requests.post(url=_url, data=payload)
+        if(_for_national_team):
+            payload_preset.pop("countryId")
+            payload_preset["onlyNationalTeams"]=1
+        res = requests.post(url=_url, data=payload_preset)
         return {"results": res.json()["records"]}
 
-    def get_players_list(
+    def get_players(
         page=1,
         count=10,
         continent_id="all",
         country_id="all",
         tournament_id="all",
-        desc=True,
+        desc=True
     ):
         """
         this Method fetch the players from the url that contains them as json list
@@ -74,6 +79,7 @@ class fetcher:
         """
         ORDER_BY = "ft_most_valuable_players.estimated_value"
         return fetcher.__request_post__(
+            False,
             fetcher.PLAYERS_URL,
             page,
             count,
@@ -81,7 +87,7 @@ class fetcher:
             country_id,
             tournament_id,
             ORDER_BY,
-            desc,
+            desc
         )
 
     def get_countries(term=""):
@@ -109,16 +115,17 @@ class fetcher:
 
         return {"results": results}
 
-    def get_random_player():
-        return fetcher.get_players_list(page=randint(1, 100), count=1)[0]
+    def get_random_player()->dict:
+        return fetcher.get_players(page=randint(1, 100), count=1)
 
     def get_continents(term=""):
-        """this Method fetch continents by name"""
+        """this Method fetch continents by `name`"""
         return fetcher.__fetch_all_pages__(
             term, fetcher.CONTINENTS_URL, fetcher.__fetch_page_by_term__
         )
 
     def get_tournaments(term=""):
+        """this Method fetch tournaments by `name`"""
         return fetcher.__fetch_all_pages__(
             term, fetcher.TOURNEMENTS_URL, fetcher.__fetch_page_by_term__
         )
@@ -129,10 +136,11 @@ class fetcher:
         continent_id="all",
         country_id="all",
         tournament_id="all",
-        desc=True,
+        desc=True
     ):
         ORDER_BY = "total_current_player_value"
         return fetcher.__request_post__(
+            False,
             fetcher.TEAMS_URL,
             page,
             count,
@@ -140,12 +148,32 @@ class fetcher:
             country_id,
             tournament_id,
             ORDER_BY,
-            desc,
+            desc
         )
-
-
-# testlines
+    def get_national_teams(
+        page=1,
+        count=10,
+        continent_id="all",
+        tournament_id="all",
+        desc=True
+    ):
+        ORDER_BY = "total_current_player_value"
+        return fetcher.__request_post__(
+            True,
+            fetcher.TEAMS_URL,
+            page,
+            count,
+            continent_id,
+            None,
+            tournament_id,
+            ORDER_BY,
+            desc
+        )
+# # testlines
+# print(fetcher.get_random_player())
 # print(fetcher.get_players_list(count=4, continent_id=1))
 # print(fetcher.get_countries())
 # print(fetcher.get_continents())
+# print(fetcher.get_tournaments())
 # print(fetcher.get_teams())
+# print(fetcher.get_national_teams(count=3,continent_id=1,tournament_id="all"))
