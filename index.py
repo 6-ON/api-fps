@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 def prepare_response(data):
     return app.response_class(
-        response=json.dumps(data), status=200, mimetype="application/json"
+        response=json.dumps(data,sort_keys=True,indent=2), status=200, mimetype="application/json"
     )
 
 
