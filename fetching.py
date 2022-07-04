@@ -12,7 +12,6 @@
 """
 
 
-import json
 from random import randint
 import requests
 
@@ -62,7 +61,7 @@ class fetcher:
             payload_preset.pop("countryId")
             payload_preset["onlyNationalTeams"]=1
         res = requests.post(url=_url, data=payload_preset)
-        return json.dumps({"results": res.json()["records"]},sort_keys=True,indent=4)
+        return {"results": res.json()["records"]}
 
     def get_players(
         page=1,
@@ -113,7 +112,7 @@ class fetcher:
                 break
             page_index += 1
 
-        return json.dumps({"results": results},sort_keys=True,indent=4)
+        return {"results": results}
 
     def get_random_player()->dict:
         return fetcher.get_players(page=randint(1, 100), count=1)
